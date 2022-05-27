@@ -1,0 +1,42 @@
+.filter {
+  background-color: #292929;
+  display: flex;
+  justify-content: space-between;
+  width: 1366px;
+}
+.filter_rides {
+  color: #d0cbcb;
+  width: 1366px;
+  display: flex;
+  margin: 29px var(--left-margin);
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+}
+.active {
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+.filter_rides div {
+  margin-right: 44px;
+}
+.filter_location {
+  display: flex;
+}
+.filter_location svg {
+  margin-top: 35px;
+  margin-right: 8px;
+}
+.filter_location p {
+  color: #f2f2f2;
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  margin-right: 47px;
+  margin-top: 31px;
+}

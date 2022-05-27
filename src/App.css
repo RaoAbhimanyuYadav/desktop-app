@@ -1,3 +1,5 @@
+@import url("http://fonts.cdnfonts.com/css/sf-pro-display");
+
 * {
   margin: 0;
   padding: 0;
@@ -5,9 +7,14 @@
 :root {
   --nav-background: #101010;
   --card-background: #171717;
-  --body-background: #e5e5e5;
+  --body-background: #292929;
+  --left-margin: 43px;
 }
+
 .App {
-  background-color: var(--body-background);
-  height: 100vh;
+  background-color: #000000;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 }
