@@ -1,0 +1,54 @@
+.dropdown-content {
+  display: none;
+  background-color: #131313;
+  width: 228px;
+  height: 190px;
+  border-radius: 15px;
+  box-sizing: border-box;
+  padding: 23px 30px;
+  box-sizing: border-box;
+  z-index: 1;
+  position: absolute;
+  left: -152px;
+  top: 33px;
+}
+.dropdown-content > p {
+  font-family: "SF Pro Display";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 20px;
+  /* line-height: 24px; */
+  color: #a5a5a5;
+  width: 49px;
+  height: 24px;
+  margin: 0 0 12px 12px;
+}
+
+.dropdownOption {
+  width: 168.45px;
+  height: 37.5px;
+  box-sizing: border-box;
+  background: #232323;
+  border-radius: 4.68775px;
+  padding: 8px 12.45px 7.5px 12px;
+}
+.dropdownOption > div {
+  display: flex;
+  justify-content: space-between;
+  width: 144px;
+  height: 22px;
+
+  font-family: "SF Pro Display";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 20px;
+
+  color: #ffffff;
+}
+.dropdownOption svg {
+  margin: 5px 0;
+}
+.state {
+  margin: 20px 29.55px 12.5px 0px;
+}

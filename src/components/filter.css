@@ -27,12 +27,13 @@ section {
 }
 .filter_location {
   display: flex;
+  position: relative;
 }
 .filter_location svg {
   margin-top: 35px;
   margin-right: 8px;
 }
-.filter_location p {
+.filter_location > div {
   color: #f2f2f2;
   font-family: "Inter", sans-serif;
   font-style: normal;
@@ -41,4 +42,7 @@ section {
   line-height: 19px;
   margin-right: 47px;
   margin-top: 32px;
+}
+.filter_location:hover .dropdown-content {
+  display: block;
 }
