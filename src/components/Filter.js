@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { LOCAL_DATA, RIDE_API } from "../const";
+import { RIDE_API } from "../const";
 import Dropdown from "./Dropdown";
 import "./filter.css";
 import Ride from "./Ride";
 import useFetch from "./useFetch";
 const Filter = () => {
   const myStation = 60;
-  const { data, isPending, error } = useFetch(RIDE_API);
+  const { data } = useFetch(RIDE_API);
   // const data = LOCAL_DATA;
   const stateList = data?.map((obj) => obj.state) || null;
   const [filteredData, setFilteredData] = useState(data);
@@ -15,7 +15,7 @@ const Filter = () => {
   useEffect(() => {
     handleNearestRide();
     countUpcomingRides();
-    countPastRides();
+    countPastRides(); // eslint-disable-next-line
   }, [data]);
 
   const handleNearestRide = () => {
