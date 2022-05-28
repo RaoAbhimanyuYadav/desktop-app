@@ -8,9 +8,14 @@
   color: #cfcfcf;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   margin: 0px 43px;
   margin-bottom: 13px;
   border-radius: 10px;
+}
+
+.ride_info {
+  display: flex;
 }
 
 .ride_img {
@@ -27,13 +32,19 @@
   margin-bottom: 10px;
 }
 
+.ride_location {
+  display: flex;
+  justify-self: flex-end;
+  margin-right: 20px;
+}
+
 .location {
   color: #ffffff;
   background: rgba(0, 0, 0, 0.56);
   border-radius: 16px;
   position: relative;
   top: 26px;
-  right: -284px;
+
   height: 23px;
   font-family: "Inter", sans-serif;
   font-style: normal;
