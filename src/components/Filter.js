@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { LOCAL_DATA, RIDE_API } from "../const";
+import { RIDE_API } from "../const";
 import Dropdown from "./Dropdown";
 import "./filter.css";
 import Ride from "./Ride";
 import useFetch from "./useFetch";
 const Filter = () => {
   const myStation = 60;
-  // const { data } = useFetch(RIDE_API);
-  const data = LOCAL_DATA;
+  const { data } = useFetch(RIDE_API);
+  // const data = LOCAL_DATA;
 
   const [filteredData, setFilteredData] = useState(data);
   const [upcomingData, setUpcomingData] = useState([]);
@@ -122,7 +122,7 @@ const Filter = () => {
       setFilteredData(upcomingData);
     } else {
       handleNearestRide(arr);
-    }
+    } // eslint-disable-next-line
   }, [state]);
 
   const cityFilter = () => {
@@ -144,7 +144,7 @@ const Filter = () => {
       setFilteredData(upcomingData);
     } else {
       handleNearestRide(arr);
-    }
+    } // eslint-disable-next-line
   }, [city]);
 
   return (

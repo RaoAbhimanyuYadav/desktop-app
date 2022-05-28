@@ -26,7 +26,7 @@ const Dropdown = ({ data, state, s, setState, c, setCity }) => {
     }
   };
   useEffect(() => {
-    citySelector();
+    citySelector(); // eslint-disable-next-line
   }, [s]);
 
   const handleCityClick = (e) => {
