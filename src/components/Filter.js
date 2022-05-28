@@ -127,9 +127,9 @@ const Filter = () => {
 
   const cityFilter = () => {
     if (city === "City") {
-      return data.filter((obj) => obj.state === state);
+      return data?.filter((obj) => obj.state === state);
     } else {
-      return data.filter((obj) => obj.city === city);
+      return data?.filter((obj) => obj.city === city);
     }
   };
   useEffect(() => {
