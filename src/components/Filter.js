@@ -106,6 +106,9 @@ const Filter = () => {
       return data.filter((obj) => obj.state === state);
     }
   };
+  useEffect(() => {
+    console.log("data changed");
+  }, [filteredData]);
 
   useEffect(() => {
     let arr = stateFilter();
@@ -121,13 +124,28 @@ const Filter = () => {
       handleNearestRide(arr);
     }
   }, [state]);
-  // useEffect(() => {
-  //   handleNearestRide();
-  //   countUpcomingRides();
-  //   countPastRides();
-  //   locationFilter();
-  //   console.log(city, "c");
-  // }, [city]);
+
+  const cityFilter = () => {
+    if (city === "City") {
+      return data.filter((obj) => obj.state === state);
+    } else {
+      return data.filter((obj) => obj.city === city);
+    }
+  };
+  useEffect(() => {
+    let arr = cityFilter();
+    handleNearestRide(arr);
+    countUpcomingRides(arr);
+    countPastRides(arr);
+
+    if (activeRide.p) {
+      setFilteredData(pastData);
+    } else if (activeRide.u) {
+      setFilteredData(upcomingData);
+    } else {
+      handleNearestRide(arr);
+    }
+  }, [city]);
 
   return (
     <section>
