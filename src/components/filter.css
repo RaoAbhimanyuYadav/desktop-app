@@ -26,24 +26,30 @@ section {
   margin-right: 44px;
   cursor: pointer;
 }
-.filter_location {
+.trigger {
   display: flex;
-  position: relative;
+  cursor: pointer;
 }
-.filter_location svg {
+.trigger > svg {
   margin-top: 35px;
   margin-right: 8px;
 }
-.filter_location > div {
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.trigger {
   color: #f2f2f2;
   font-family: "Inter", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-  margin-right: 47px;
-  margin-top: 32px;
+  margin-right: 56px;
 }
-.filter_location:hover .dropdown-content {
+.trigger span {
+  margin: 33px 56px 31px 0px;
+}
+.filter_location:hover .dropdown_content {
   display: block;
 }

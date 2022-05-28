@@ -8,12 +8,17 @@ const Filter = () => {
   const myStation = 60;
   // const { data } = useFetch(RIDE_API);
   const data = LOCAL_DATA;
-  console.log(data.length);
-  const stateList = data?.map((obj) => obj.state) || null;
+
   const [filteredData, setFilteredData] = useState(data);
   const [upcomingData, setUpcomingData] = useState([]);
   const [pastData, setPastData] = useState([]);
+  const [stateData, setStateData] = useState(null);
   useEffect(() => {
+    setStateData(() => {
+      let stateList = data?.map((obj) => obj.state);
+      stateList = [...new Set(stateList)];
+      return stateList;
+    });
     handleNearestRide();
     countUpcomingRides();
     countPastRides(); // eslint-disable-next-line
@@ -98,14 +103,14 @@ const Filter = () => {
           <div onClick={handleUpcomingRides}> Upcoming rides ({upcomingData.length})</div>
           <div onClick={handlePastRides}>Past rides ({pastData.length})</div>
         </div>
-        <div className="filter_location">
-          <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M-6.10352e-05 12.0001H5.99994V10.0001H-6.10352e-05V12.0001ZM-6.10352e-05 9.15527e-05V2.00009H17.9999V9.15527e-05H-6.10352e-05ZM-6.10352e-05 7.00009H11.9999V5.00009H-6.10352e-05V7.00009Z" fill="white" fillOpacity="0.8" />
-          </svg>
-          <div>
+        <div className="filter_location dropdown">
+          <div className="trigger">
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M-6.10352e-05 12.0001H5.99994V10.0001H-6.10352e-05V12.0001ZM-6.10352e-05 9.15527e-05V2.00009H17.9999V9.15527e-05H-6.10352e-05ZM-6.10352e-05 7.00009H11.9999V5.00009H-6.10352e-05V7.00009Z" fill="white" fillOpacity="0.8" />
+            </svg>
             <span>Filters</span>
-            <Dropdown state={stateList} />
           </div>
+          <Dropdown state={stateData} />
         </div>
       </div>
       {filteredData
