@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { RIDE_API } from "../const";
+import { LOCAL_DATA, RIDE_API } from "../const";
 import Dropdown from "./Dropdown";
 import "./filter.css";
 import Ride from "./Ride";
 import useFetch from "./useFetch";
 const Filter = () => {
   const myStation = 60;
-  const { data } = useFetch(RIDE_API);
-  // const data = LOCAL_DATA;
+  // const { data } = useFetch(RIDE_API);
+  const data = LOCAL_DATA;
+  console.log(data.length);
   const stateList = data?.map((obj) => obj.state) || null;
   const [filteredData, setFilteredData] = useState(data);
   const [upcomingData, setUpcomingData] = useState([]);
@@ -22,8 +23,12 @@ const Filter = () => {
     let nearestRide = [];
     data?.forEach((obj) => {
       const dist = distanceCalculator(obj.station_path);
+      const date = new Date(obj.date);
+      const currDate = new Date();
       if (dist >= 0) {
-        nearestRide.push({ ...obj, distance: dist });
+        if (!(date.toLocaleDateString() > currDate.toLocaleDateString()) && !(date.toLocaleDateString() < currDate.toLocaleDateString()) && date.getTime() > currDate.getTime()) {
+          nearestRide.push({ ...obj, distance: dist });
+        }
       }
     });
     setFilteredData(nearestRide);
@@ -47,10 +52,9 @@ const Filter = () => {
       const dist = distanceCalculator(obj.station_path);
       const date = new Date(obj.date);
       const currDate = new Date();
-      if (date > currDate) {
+      if (date.toLocaleDateString() > currDate.toLocaleDateString()) {
         arr.push({ ...obj, distance: dist });
       }
-
       setUpcomingData(arr);
     });
   };
@@ -66,7 +70,7 @@ const Filter = () => {
       const dist = distanceCalculator(obj.station_path);
       const date = new Date(obj.date);
       const currDate = new Date();
-      if (date <= currDate) {
+      if (date < currDate) {
         arr.push({ ...obj, distance: dist });
       }
       setPastData(arr);
