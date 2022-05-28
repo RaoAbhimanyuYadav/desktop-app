@@ -24,6 +24,7 @@ section {
 }
 .filter_rides div {
   margin-right: 44px;
+  cursor: pointer;
 }
 .filter_location {
   display: flex;

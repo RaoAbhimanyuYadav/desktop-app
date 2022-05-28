@@ -1,7 +1,7 @@
 import React from "react";
 import "./ride.css";
 const Ride = ({ ride }) => {
-  const { map_url, id, origin_station_code, station_path, date, state, city } = ride;
+  const { map_url, id, origin_station_code, station_path, date, state, city, distance } = ride;
 
   return (
     <div className="ride">
@@ -12,7 +12,7 @@ const Ride = ({ ride }) => {
           <p>Origin Station : {origin_station_code}</p>
           <p>station_path : {JSON.stringify(station_path)}</p>
           <p>Date: {date}</p>
-          <p>Distance : 1</p>
+          <p>Distance : {distance}</p>
         </div>
       </div>
       <div className="ride_location">
