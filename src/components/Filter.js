@@ -13,20 +13,24 @@ const Filter = () => {
   const [upcomingData, setUpcomingData] = useState([]);
   const [pastData, setPastData] = useState([]);
   const [stateData, setStateData] = useState(null);
+  const [state, setState] = useState("State");
+  const [city, setCity] = useState("City");
+  const [activeRide, setActiveRide] = useState({ n: true, u: false, p: false });
+
   useEffect(() => {
     setStateData(() => {
       let stateList = data?.map((obj) => obj.state);
       stateList = [...new Set(stateList)];
       return stateList;
     });
-    handleNearestRide();
-    countUpcomingRides();
-    countPastRides(); // eslint-disable-next-line
+    handleNearestRide(data);
+    countUpcomingRides(data);
+    countPastRides(data); // eslint-disable-next-line
   }, [data]);
 
-  const handleNearestRide = () => {
+  const handleNearestRide = (d) => {
     let nearestRide = [];
-    data?.forEach((obj) => {
+    d?.forEach((obj) => {
       const dist = distanceCalculator(obj.station_path);
       const date = new Date(obj.date);
       const currDate = new Date();
@@ -37,6 +41,12 @@ const Filter = () => {
       }
     });
     setFilteredData(nearestRide);
+  };
+
+  const handleNearestClick = (e) => {
+    changeActiveClass(e);
+    handleNearestRide(data);
+    setActiveRide({ n: true, u: false, p: false });
   };
 
   const changeActiveClass = (e) => {
@@ -51,9 +61,9 @@ const Filter = () => {
     return arr[0] - myStation;
   };
 
-  const countUpcomingRides = () => {
+  const countUpcomingRides = (d) => {
     const arr = [];
-    data?.forEach((obj) => {
+    d?.forEach((obj) => {
       const dist = distanceCalculator(obj.station_path);
       const date = new Date(obj.date);
       const currDate = new Date();
@@ -67,11 +77,12 @@ const Filter = () => {
   const handleUpcomingRides = (e) => {
     changeActiveClass(e);
     setFilteredData(upcomingData);
+    setActiveRide({ n: false, u: true, p: false });
   };
 
-  const countPastRides = (e) => {
+  const countPastRides = (d) => {
     const arr = [];
-    data?.forEach((obj) => {
+    d?.forEach((obj) => {
       const dist = distanceCalculator(obj.station_path);
       const date = new Date(obj.date);
       const currDate = new Date();
@@ -85,19 +96,44 @@ const Filter = () => {
   const handlePastRides = (e) => {
     changeActiveClass(e);
     setFilteredData(pastData);
+    setActiveRide({ n: false, u: false, p: true });
   };
-  // console.log(data, isPending, error, filteredData);
+
+  const stateFilter = () => {
+    if (state === "State") {
+      return data;
+    } else {
+      return data.filter((obj) => obj.state === state);
+    }
+  };
+
+  useEffect(() => {
+    let arr = stateFilter();
+    handleNearestRide(arr);
+    countUpcomingRides(arr);
+    countPastRides(arr);
+
+    if (activeRide.p) {
+      setFilteredData(pastData);
+    } else if (activeRide.u) {
+      setFilteredData(upcomingData);
+    } else {
+      handleNearestRide(arr);
+    }
+  }, [state]);
+  // useEffect(() => {
+  //   handleNearestRide();
+  //   countUpcomingRides();
+  //   countPastRides();
+  //   locationFilter();
+  //   console.log(city, "c");
+  // }, [city]);
+
   return (
     <section>
       <div className="filter">
         <div className="filter_rides">
-          <div
-            className="active"
-            onClick={(e) => {
-              changeActiveClass(e);
-              handleNearestRide();
-            }}
-          >
+          <div className="active" onClick={handleNearestClick}>
             Nearest rides
           </div>
           <div onClick={handleUpcomingRides}> Upcoming rides ({upcomingData.length})</div>
@@ -110,7 +146,7 @@ const Filter = () => {
             </svg>
             <span>Filters</span>
           </div>
-          <Dropdown state={stateData} />
+          <Dropdown data={data} state={stateData} s={state} setState={setState} c={city} setCity={setCity} />
         </div>
       </div>
       {filteredData

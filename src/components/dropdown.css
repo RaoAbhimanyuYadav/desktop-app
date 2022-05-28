@@ -1,5 +1,5 @@
 .dropdown_content {
-  /* display: none; */
+  display: none;
   background-color: #131313;
   width: 228px;
   height: 190px;
@@ -49,4 +49,41 @@
 }
 .state {
   margin: 20px 29.55px 12.5px 0px;
+}
+
+.dropdownOptions {
+  position: relative;
+}
+.option {
+  cursor: pointer;
+}
+
+/* .dropdownOptions:hover .dropdownList_content {
+  display: block;
+} */
+.dropdownList_content {
+  display: none;
+  position: absolute;
+  box-sizing: border-box;
+  background-color: #131313;
+  width: 169px;
+  top: 0;
+  left: 0;
+  border-radius: 5px;
+  height: fit-content;
+  z-index: 2;
+}
+.dropdownList {
+  font-family: "SF Pro Display";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 24px;
+  color: #a5a5a5;
+  background: #232323;
+  margin-top: 10px;
+  padding: 5px;
+  padding-left: 20px;
+  border-radius: 5px;
+  cursor: pointer;
 }
