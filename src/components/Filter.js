@@ -2,7 +2,8 @@ import React from "react";
 import Dropdown from "./Dropdown";
 import "./filter.css";
 
-const Filter = ({ setIsNearestRide, setIsUpcomingRide, setIsPastRide, upcomingData, pastData, setIsCitySelected, setIsStateSelected, selectedState, setSelectedState, selectedCity, setSelectedCity, states, cities }) => {
+const Filter = ({ obj }) => {
+  let { setIsNearestRide, setIsUpcomingRide, setIsPastRide, upcomingData, pastData, setIsCitySelected, setIsStateSelected, selectedState, setSelectedState, selectedCity, setSelectedCity, states, cities } = obj;
   const changeActiveClass = (e) => {
     Array.from(e.target.parentElement.children).forEach((e) => {
       e.setAttribute("class", "");
@@ -47,7 +48,7 @@ const Filter = ({ setIsNearestRide, setIsUpcomingRide, setIsPastRide, upcomingDa
             </svg>
             <span>Filters</span>
           </div>
-          <Dropdown setIsCitySelected={setIsCitySelected} setIsStateSelected={setIsStateSelected} selectedState={selectedState} setSelectedState={setSelectedState} selectedCity={selectedCity} setSelectedCity={setSelectedCity} states={states} cities={cities} />
+          <Dropdown obj={{ setIsCitySelected, setIsStateSelected, selectedState, setSelectedState, selectedCity, setSelectedCity, states, cities }} />
         </div>
       </div>
     </section>

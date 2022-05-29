@@ -1,5 +1,6 @@
 import "./dropdown.css";
-const Dropdown = ({ setIsCitySelected, setIsStateSelected, selectedState, setSelectedState, selectedCity, setSelectedCity, states, cities }) => {
+const Dropdown = ({ obj }) => {
+  let { setIsCitySelected, setIsStateSelected, selectedState, setSelectedState, selectedCity, setSelectedCity, states, cities } = obj;
   const handleStateClick = (e) => {
     e.target.nextSibling.style.display = "block";
   };

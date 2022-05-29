@@ -189,7 +189,7 @@ function App() {
   return (
     <div className="App">
       <Navbar userInfo={userInfo} />
-      <Filter setIsNearestRide={setIsNearestRide} setIsUpcomingRide={setIsUpcomingRide} setIsPastRide={setIsPastRide} upcomingData={upcomingData} pastData={pastData} setIsCitySelected={setIsCitySelected} setIsStateSelected={setIsStateSelected} selectedState={selectedState} setSelectedState={setSelectedState} selectedCity={selectedCity} setSelectedCity={setSelectedCity} states={states} cities={cities} />
+      <Filter obj={{ setIsNearestRide, setIsUpcomingRide, setIsPastRide, upcomingData, pastData, setIsCitySelected, setIsStateSelected, selectedState, setSelectedState, selectedCity, setSelectedCity, states, cities }} />
       <Ride filteredData={filteredData} />
     </div>
   );
