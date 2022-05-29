@@ -1,12 +1,189 @@
+import { Children, useEffect, useState } from "react";
 import "./App.css";
 import Filter from "./components/Filter";
 import Navbar from "./components/Navbar";
+import Ride from "./components/Ride";
+import { LOCAL_DATA, RIDE_API, USER_API } from "./const";
 
 function App() {
+  const [userInfo, setUserInfo] = useState([]);
+  const [rawData, setRawData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+
+  const [nearestData, setNearestData] = useState([]);
+  const [upcomingData, setUpcomingData] = useState([]);
+  const [pastData, setPastData] = useState([]);
+
+  const [isNearestRide, setIsNearestRide] = useState(true);
+  const [isUpcomingRide, setIsUpcomingRide] = useState(false);
+  const [isPastRide, setIsPastRide] = useState(false);
+
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+
+  const [isStateSelected, setIsStateSelected] = useState(false);
+  const [isCitySelected, setIsCitySelected] = useState(false);
+
+  const [selectedState, setSelectedState] = useState("State");
+  const [selectedCity, setSelectedCity] = useState("City");
+
+  // useEffect(() => {
+  //   fetch(RIDE_API)
+  //     .then((res) => {
+  //       if (res.ok) {
+  //         return res.json();
+  //       }
+  //     })
+  //     .then((data) => {
+  //       console.log(data);
+  //       setRawData(data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  //   fetch(USER_API)
+  //     .then((res) => {
+  //       if (res.ok) {
+  //         return res.json();
+  //       }
+  //     })
+  //     .then((data) => {
+  //       console.log(data);
+  //       setUserInfo(data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
+  useEffect(() => {
+    setRawData(LOCAL_DATA);
+    fetch(USER_API)
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .then((data) => {
+        console.log(data);
+        setUserInfo(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    console.log("r", rawData);
+    setFilteredData(handleNearestRide());
+
+    setNearestData(handleNearestRide());
+    setUpcomingData(handleUpcomingRides());
+    setPastData(handlePastRides());
+
+    setStates(() => {
+      let stateList = rawData?.map((obj) => obj.state);
+      stateList = [...new Set(stateList)];
+      return stateList;
+    });
+
+    setCities(() => {
+      let cityList = rawData?.map((obj) => obj.city);
+      cityList = [...new Set(cityList)];
+      return cityList;
+    });
+  }, [rawData, userInfo]);
+
+  const distanceCalculator = (e) => {
+    const arr = e?.filter((s) => s >= userInfo.station_code);
+    return arr[0] - userInfo.station_code;
+  };
+
+  const handleNearestRide = () => {
+    let nearestRide = [];
+    rawData?.forEach((obj) => {
+      const dist = distanceCalculator(obj.station_path);
+      const date = new Date(obj.date);
+      const currDate = new Date();
+      if (dist >= 0) {
+        if (!(date.toLocaleDateString() > currDate.toLocaleDateString()) && !(date.toLocaleDateString() < currDate.toLocaleDateString()) && date.getTime() > currDate.getTime()) {
+          nearestRide.push({ ...obj, distance: dist });
+        }
+      }
+    });
+    return nearestRide;
+  };
+  const handleUpcomingRides = () => {
+    const arr = [];
+    rawData?.forEach((obj) => {
+      const dist = distanceCalculator(obj.station_path);
+      const date = new Date(obj.date);
+      const currDate = new Date();
+      if (date.toLocaleDateString() > currDate.toLocaleDateString()) {
+        arr.push({ ...obj, distance: dist });
+      }
+    });
+    return arr;
+  };
+
+  const handlePastRides = () => {
+    const arr = [];
+    rawData?.forEach((obj) => {
+      const dist = distanceCalculator(obj.station_path);
+      const date = new Date(obj.date);
+      const currDate = new Date();
+      if (date < currDate) {
+        arr.push({ ...obj, distance: dist });
+      }
+    });
+    return arr;
+  };
+
+  useEffect(() => {
+    console.log("useeffect run");
+    if (isStateSelected && selectedState) {
+      console.log("state if open");
+      let d1 = handleNearestRide().filter((obj) => obj.state === selectedState);
+      setNearestData(d1);
+      let d2 = handleUpcomingRides().filter((obj) => obj.state === selectedState);
+      setUpcomingData(d2);
+      let d3 = handlePastRides().filter((obj) => obj.state === selectedState);
+      setPastData(d3);
+      if (isCitySelected && selectedCity) {
+        setNearestData(d1.filter((obj) => obj.city === selectedCity));
+        setUpcomingData(d2.filter((obj) => obj.city === selectedCity));
+        setPastData(d3.filter((obj) => obj.city === selectedCity));
+      }
+    }
+
+    if (isCitySelected && selectedCity && !isStateSelected) {
+      setNearestData(handleNearestRide().filter((obj) => obj.city === selectedCity));
+      setUpcomingData(handleUpcomingRides().filter((obj) => obj.city === selectedCity));
+      setPastData(handlePastRides().filter((obj) => obj.city === selectedCity));
+    } else if (!isStateSelected && !isCitySelected) {
+      setNearestData(handleNearestRide());
+      setUpcomingData(handleUpcomingRides());
+      setPastData(handlePastRides());
+    }
+    if (isNearestRide) {
+      setFilteredData(nearestData);
+    } else if (isUpcomingRide) {
+      setFilteredData(upcomingData);
+    } else {
+      console.log("past data");
+      setFilteredData(pastData);
+    }
+  }, [isNearestRide, isUpcomingRide, isPastRide, isStateSelected, isCitySelected, selectedState, selectedCity]);
+
   return (
     <div className="App">
-      <Navbar />
-      <Filter />
+      <Navbar userInfo={userInfo} />
+      <Filter setIsNearestRide={setIsNearestRide} setIsUpcomingRide={setIsUpcomingRide} setIsPastRide={setIsPastRide} upcomingData={upcomingData} pastData={pastData} setIsCitySelected={setIsCitySelected} setIsStateSelected={setIsStateSelected} selectedState={selectedState} setSelectedState={setSelectedState} selectedCity={selectedCity} setSelectedCity={setSelectedCity} states={states} cities={cities} />
+      <Ride filteredData={filteredData} />
+      {/* {filteredData
+      ?.sort((a, b) => a.distance - b.distance)
+      .map((ride) => {
+        return <Ride ride={ride} id={ride.id} />;
+      })} */}
     </div>
   );
 }

@@ -1,54 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { RIDE_API } from "../const";
 import Dropdown from "./Dropdown";
 import "./filter.css";
-import Ride from "./Ride";
-import useFetch from "./useFetch";
-const Filter = () => {
-  const myStation = 60;
-  const { data } = useFetch(RIDE_API);
-  // const data = LOCAL_DATA;
 
-  const [filteredData, setFilteredData] = useState(data);
-  const [upcomingData, setUpcomingData] = useState([]);
-  const [pastData, setPastData] = useState([]);
-  const [stateData, setStateData] = useState(null);
-  const [state, setState] = useState("State");
-  const [city, setCity] = useState("City");
-  const [activeRide, setActiveRide] = useState({ n: true, u: false, p: false });
-
-  useEffect(() => {
-    setStateData(() => {
-      let stateList = data?.map((obj) => obj.state);
-      stateList = [...new Set(stateList)];
-      return stateList;
-    });
-    handleNearestRide(data);
-    countUpcomingRides(data);
-    countPastRides(data); // eslint-disable-next-line
-  }, [data]);
-
-  const handleNearestRide = (d) => {
-    let nearestRide = [];
-    d?.forEach((obj) => {
-      const dist = distanceCalculator(obj.station_path);
-      const date = new Date(obj.date);
-      const currDate = new Date();
-      if (dist >= 0) {
-        if (!(date.toLocaleDateString() > currDate.toLocaleDateString()) && !(date.toLocaleDateString() < currDate.toLocaleDateString()) && date.getTime() > currDate.getTime()) {
-          nearestRide.push({ ...obj, distance: dist });
-        }
-      }
-    });
-    setFilteredData(nearestRide);
-  };
-
-  const handleNearestClick = (e) => {
-    changeActiveClass(e);
-    handleNearestRide(data);
-    setActiveRide({ n: true, u: false, p: false });
-  };
-
+const Filter = ({ setIsNearestRide, setIsUpcomingRide, setIsPastRide, upcomingData, pastData, setIsCitySelected, setIsStateSelected, selectedState, setSelectedState, selectedCity, setSelectedCity, states, cities }) => {
   const changeActiveClass = (e) => {
     Array.from(e.target.parentElement.children).forEach((e) => {
       e.setAttribute("class", "");
@@ -56,96 +10,25 @@ const Filter = () => {
     e.target.setAttribute("class", "active");
   };
 
-  const distanceCalculator = (e) => {
-    const arr = e?.filter((s) => s >= myStation);
-    return arr[0] - myStation;
-  };
-
-  const countUpcomingRides = (d) => {
-    const arr = [];
-    d?.forEach((obj) => {
-      const dist = distanceCalculator(obj.station_path);
-      const date = new Date(obj.date);
-      const currDate = new Date();
-      if (date.toLocaleDateString() > currDate.toLocaleDateString()) {
-        arr.push({ ...obj, distance: dist });
-      }
-      setUpcomingData(arr);
-    });
-  };
-
-  const handleUpcomingRides = (e) => {
+  const handleNearestClick = (e) => {
     changeActiveClass(e);
-    setFilteredData(upcomingData);
-    setActiveRide({ n: false, u: true, p: false });
+    setIsNearestRide(true);
+    setIsUpcomingRide(false);
+    setIsPastRide(false);
   };
 
-  const countPastRides = (d) => {
-    const arr = [];
-    d?.forEach((obj) => {
-      const dist = distanceCalculator(obj.station_path);
-      const date = new Date(obj.date);
-      const currDate = new Date();
-      if (date < currDate) {
-        arr.push({ ...obj, distance: dist });
-      }
-      setPastData(arr);
-    });
-  };
-
-  const handlePastRides = (e) => {
+  const handleUpcomingClick = (e) => {
     changeActiveClass(e);
-    setFilteredData(pastData);
-    setActiveRide({ n: false, u: false, p: true });
+    setIsNearestRide(false);
+    setIsUpcomingRide(true);
+    setIsPastRide(false);
   };
-
-  const stateFilter = () => {
-    if (state === "State") {
-      return data;
-    } else {
-      return data.filter((obj) => obj.state === state);
-    }
+  const handlePastClick = (e) => {
+    changeActiveClass(e);
+    setIsNearestRide(false);
+    setIsUpcomingRide(false);
+    setIsPastRide(true);
   };
-  useEffect(() => {
-    console.log("data changed");
-  }, [filteredData]);
-
-  useEffect(() => {
-    let arr = stateFilter();
-    handleNearestRide(arr);
-    countUpcomingRides(arr);
-    countPastRides(arr);
-
-    if (activeRide.p) {
-      setFilteredData(pastData);
-    } else if (activeRide.u) {
-      setFilteredData(upcomingData);
-    } else {
-      handleNearestRide(arr);
-    } // eslint-disable-next-line
-  }, [state]);
-
-  const cityFilter = () => {
-    if (city === "City") {
-      return data?.filter((obj) => obj.state === state);
-    } else {
-      return data?.filter((obj) => obj.city === city);
-    }
-  };
-  useEffect(() => {
-    let arr = cityFilter();
-    handleNearestRide(arr);
-    countUpcomingRides(arr);
-    countPastRides(arr);
-
-    if (activeRide.p) {
-      setFilteredData(pastData);
-    } else if (activeRide.u) {
-      setFilteredData(upcomingData);
-    } else {
-      handleNearestRide(arr);
-    } // eslint-disable-next-line
-  }, [city]);
 
   return (
     <section>
@@ -154,8 +37,8 @@ const Filter = () => {
           <div className="active" onClick={handleNearestClick}>
             Nearest rides
           </div>
-          <div onClick={handleUpcomingRides}> Upcoming rides ({upcomingData.length})</div>
-          <div onClick={handlePastRides}>Past rides ({pastData.length})</div>
+          <div onClick={handleUpcomingClick}> Upcoming rides ({upcomingData.length})</div>
+          <div onClick={handlePastClick}>Past rides ({pastData.length})</div>
         </div>
         <div className="filter_location dropdown">
           <div className="trigger">
@@ -164,14 +47,9 @@ const Filter = () => {
             </svg>
             <span>Filters</span>
           </div>
-          <Dropdown data={data} state={stateData} s={state} setState={setState} c={city} setCity={setCity} />
+          <Dropdown setIsCitySelected={setIsCitySelected} setIsStateSelected={setIsStateSelected} selectedState={selectedState} setSelectedState={setSelectedState} selectedCity={selectedCity} setSelectedCity={setSelectedCity} states={states} cities={cities} />
         </div>
       </div>
-      {filteredData
-        ?.sort((a, b) => a.distance - b.distance)
-        .map((ride) => {
-          return <Ride ride={ride} id={ride.id} />;
-        })}
     </section>
   );
 };

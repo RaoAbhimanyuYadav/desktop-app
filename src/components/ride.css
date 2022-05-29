@@ -9,9 +9,10 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin: 0px 43px;
-  margin-bottom: 13px;
+  margin: 13px 43px;
   border-radius: 10px;
+  max-width: 1280px;
+  width: 100%;
 }
 
 .ride_info {

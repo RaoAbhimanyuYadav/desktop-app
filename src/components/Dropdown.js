@@ -1,41 +1,28 @@
-import React, { useEffect, useState } from "react";
 import "./dropdown.css";
-const Dropdown = ({ data, state, s, setState, c, setCity }) => {
+const Dropdown = ({ setIsCitySelected, setIsStateSelected, selectedState, setSelectedState, selectedCity, setSelectedCity, states, cities }) => {
   const handleStateClick = (e) => {
-    // e.target.classList.add("class", "show");
     e.target.nextSibling.style.display = "block";
   };
   const handleStateChange = (e) => {
-    setState(e.target.id);
-    setCity("City");
+    setSelectedState(e.target.id);
+    setIsStateSelected(true);
+    setIsCitySelected(false);
+    setSelectedCity("City");
     e.target.parentElement.style.display = "none";
-  };
-  const [cityData, setCityData] = useState([]);
-
-  const citySelector = () => {
-    if (s === "State") {
-      setCityData([]);
-    } else {
-      let arr = [];
-      data?.forEach((obj) => {
-        if (obj.state === s) {
-          arr.push(obj.city);
-        }
-      });
-      setCityData(arr);
+    if (e.target.id === "State") {
+      setIsStateSelected(false);
     }
   };
-  useEffect(() => {
-    citySelector(); // eslint-disable-next-line
-  }, [s]);
-
   const handleCityClick = (e) => {
     e.target.nextSibling.style.display = "block";
   };
-
   const handleCityChange = (e) => {
-    setCity(e.target.id);
+    setIsCitySelected(true);
+    setSelectedCity(e.target.id);
     e.target.parentElement.style.display = "none";
+    if (e.target.id === "City") {
+      setIsCitySelected(false);
+    }
   };
 
   return (
@@ -44,7 +31,7 @@ const Dropdown = ({ data, state, s, setState, c, setCity }) => {
       <hr />
       <div className="dropdownOptions state">
         <div className="option" onClick={handleStateClick}>
-          {s}
+          {selectedState}
           <svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M6.09409 9.18994L0.816466 0.0488263L11.3717 0.0488253L6.09409 9.18994Z" fill="#A5A5A5" />
           </svg>
@@ -53,7 +40,7 @@ const Dropdown = ({ data, state, s, setState, c, setCity }) => {
           <div className="dropdownList" id="State">
             State
           </div>
-          {state?.map((sname) => {
+          {states?.map((sname) => {
             return (
               <div className="dropdownList" id={sname}>
                 {sname}
@@ -65,7 +52,7 @@ const Dropdown = ({ data, state, s, setState, c, setCity }) => {
 
       <div className="dropdownOptions city">
         <div className="option" onClick={handleCityClick}>
-          {c}
+          {selectedCity}
           <svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M6.09409 9.18994L0.816466 0.0488263L11.3717 0.0488253L6.09409 9.18994Z" fill="#A5A5A5" />
           </svg>
@@ -74,7 +61,7 @@ const Dropdown = ({ data, state, s, setState, c, setCity }) => {
           <div className="dropdownList" id="City">
             City
           </div>
-          {cityData?.map((cname) => {
+          {cities?.map((cname) => {
             return (
               <div className="dropdownList" id={cname}>
                 {cname}
