@@ -27,36 +27,20 @@ function App() {
   const [selectedState, setSelectedState] = useState("State");
   const [selectedCity, setSelectedCity] = useState("City");
 
-  // useEffect(() => {
-  //   fetch(RIDE_API)
-  //     .then((res) => {
-  //       if (res.ok) {
-  //         return res.json();
-  //       }
-  //     })
-  //     .then((data) => {
-  //       console.log(data);
-  //       setRawData(data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  //   fetch(USER_API)
-  //     .then((res) => {
-  //       if (res.ok) {
-  //         return res.json();
-  //       }
-  //     })
-  //     .then((data) => {
-  //       console.log(data);
-  //       setUserInfo(data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
   useEffect(() => {
-    setRawData(LOCAL_DATA);
+    fetch(RIDE_API)
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .then((data) => {
+        console.log(data);
+        setRawData(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     fetch(USER_API)
       .then((res) => {
         if (res.ok) {
@@ -71,6 +55,22 @@ function App() {
         console.log(err);
       });
   }, []);
+  // useEffect(() => {
+  //   setRawData(LOCAL_DATA);
+  //   fetch(USER_API)
+  //     .then((res) => {
+  //       if (res.ok) {
+  //         return res.json();
+  //       }
+  //     })
+  //     .then((data) => {
+  //       console.log(data);
+  //       setUserInfo(data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
 
   useEffect(() => {
     console.log("r", rawData);

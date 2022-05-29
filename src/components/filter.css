@@ -1,14 +1,15 @@
 section {
   background-color: #292929;
-  width: 1366px;
+  max-width: 1366px;
+  width: 100%;
 }
 .filter {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
 }
 .filter_rides {
   color: #d0cbcb;
-  width: 1366px;
   display: flex;
   margin: 29px var(--left-margin);
   font-family: "Inter", sans-serif;
