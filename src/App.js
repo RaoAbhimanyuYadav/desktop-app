@@ -174,16 +174,28 @@ function App() {
     }
   }, [isNearestRide, isUpcomingRide, isPastRide, isStateSelected, isCitySelected, selectedState, selectedCity]);
 
+  useEffect(() => {
+    if (selectedState === "State") {
+      setCities(() => {
+        let cityList = rawData?.map((obj) => obj.city);
+        cityList = [...new Set(cityList)];
+        return cityList;
+      });
+    } else {
+      setCities(() => {
+        let arr = rawData?.filter((obj) => obj.state === selectedState);
+        let cityList = arr?.map((obj) => obj.city);
+        cityList = [...new Set(cityList)];
+        return cityList;
+      });
+    }
+  }, [isStateSelected, selectedState]);
+
   return (
     <div className="App">
       <Navbar userInfo={userInfo} />
       <Filter setIsNearestRide={setIsNearestRide} setIsUpcomingRide={setIsUpcomingRide} setIsPastRide={setIsPastRide} upcomingData={upcomingData} pastData={pastData} setIsCitySelected={setIsCitySelected} setIsStateSelected={setIsStateSelected} selectedState={selectedState} setSelectedState={setSelectedState} selectedCity={selectedCity} setSelectedCity={setSelectedCity} states={states} cities={cities} />
       <Ride filteredData={filteredData} />
-      {/* {filteredData
-      ?.sort((a, b) => a.distance - b.distance)
-      .map((ride) => {
-        return <Ride ride={ride} id={ride.id} />;
-      })} */}
     </div>
   );
 }

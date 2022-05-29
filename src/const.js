@@ -58,7 +58,7 @@ export const LOCAL_DATA = [
     origin_station_code: 13,
     station_path: [30, 40, 58, 67, 79, 86],
     destination_station_code: 90,
-    date: "05/27/2022 03:48 PM",
+    date: "05/29/2022 03:48 PM",
     map_url: "https://picsum.photos/200",
     state: "Haryana",
     city: "Bahadurgarh",
