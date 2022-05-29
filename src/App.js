@@ -1,9 +1,10 @@
-import { Children, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Filter from "./components/Filter";
 import Navbar from "./components/Navbar";
 import Ride from "./components/Ride";
-import { LOCAL_DATA, RIDE_API, USER_API } from "./const";
+import { RIDE_API, USER_API } from "./const";
+// import { LOCAL_DATA } from "./const";
 
 function App() {
   const [userInfo, setUserInfo] = useState([]);
@@ -90,7 +91,7 @@ function App() {
       let cityList = rawData?.map((obj) => obj.city);
       cityList = [...new Set(cityList)];
       return cityList;
-    });
+    }); // eslint-disable-next-line
   }, [rawData, userInfo]);
 
   const distanceCalculator = (e) => {
@@ -171,7 +172,7 @@ function App() {
     } else {
       console.log("past data");
       setFilteredData(pastData);
-    }
+    } // eslint-disable-next-line
   }, [isNearestRide, isUpcomingRide, isPastRide, isStateSelected, isCitySelected, selectedState, selectedCity]);
 
   useEffect(() => {
@@ -188,7 +189,7 @@ function App() {
         cityList = [...new Set(cityList)];
         return cityList;
       });
-    }
+    } // eslint-disable-next-line
   }, [isStateSelected, selectedState]);
 
   return (
