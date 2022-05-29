@@ -40,7 +40,7 @@ const Dropdown = ({ setIsCitySelected, setIsStateSelected, selectedState, setSel
           <div className="dropdownList" id="State">
             State
           </div>
-          {states?.map((sname) => {
+          {states?.sort().map((sname) => {
             return (
               <div className="dropdownList" id={sname}>
                 {sname}
@@ -61,7 +61,7 @@ const Dropdown = ({ setIsCitySelected, setIsStateSelected, selectedState, setSel
           <div className="dropdownList" id="City">
             City
           </div>
-          {cities?.map((cname) => {
+          {cities?.sort().map((cname) => {
             return (
               <div className="dropdownList" id={cname}>
                 {cname}

@@ -36,7 +36,6 @@ function App() {
         }
       })
       .then((data) => {
-        console.log(data);
         setRawData(data);
       })
       .catch((err) => {
@@ -49,7 +48,6 @@ function App() {
         }
       })
       .then((data) => {
-        console.log(data);
         setUserInfo(data);
       })
       .catch((err) => {
@@ -74,7 +72,6 @@ function App() {
   // }, []);
 
   useEffect(() => {
-    console.log("r", rawData);
     setFilteredData(handleNearestRide());
 
     setNearestData(handleNearestRide());
@@ -140,9 +137,7 @@ function App() {
   };
 
   useEffect(() => {
-    console.log("useeffect run");
     if (isStateSelected && selectedState) {
-      console.log("state if open");
       let d1 = handleNearestRide().filter((obj) => obj.state === selectedState);
       setNearestData(d1);
       let d2 = handleUpcomingRides().filter((obj) => obj.state === selectedState);
@@ -170,7 +165,6 @@ function App() {
     } else if (isUpcomingRide) {
       setFilteredData(upcomingData);
     } else {
-      console.log("past data");
       setFilteredData(pastData);
     } // eslint-disable-next-line
   }, [isNearestRide, isUpcomingRide, isPastRide, isStateSelected, isCitySelected, selectedState, selectedCity]);
