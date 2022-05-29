@@ -9,7 +9,7 @@ const Ride = ({ filteredData }) => {
     <>
       {data.map((ride) => {
         return (
-          <div className="ride">
+          <div className="ride" key={ride.id}>
             <div className="ride_info">
               <div className="ride_img" style={{ background: `url(${ride.map_url})`, backgroundRepeat: "no-repeat", backgroundSize: "cover" }}></div>
               <div className="ride_details">
