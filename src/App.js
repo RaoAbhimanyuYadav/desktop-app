@@ -10,7 +10,6 @@ import { RIDE_API, USER_API } from "./const";
 function App() {
   const [userInfo, setUserInfo] = useState([]);
   const [rawData, setRawData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
 
   const [nearestData, setNearestData] = useState([]);
   const [upcomingData, setUpcomingData] = useState([]);
@@ -73,8 +72,6 @@ function App() {
   // }, []);
 
   useEffect(() => {
-    setFilteredData(handleNearestRide());
-
     setNearestData(handleNearestRide());
     setUpcomingData(handleUpcomingRides());
     setPastData(handlePastRides());
@@ -138,17 +135,23 @@ function App() {
   };
 
   useEffect(() => {
+    let d1 = nearestData,
+      d2 = upcomingData,
+      d3 = pastData;
     if (isStateSelected && selectedState) {
-      let d1 = handleNearestRide().filter((obj) => obj.state === selectedState);
+      d1 = handleNearestRide().filter((obj) => obj.state === selectedState);
       setNearestData(d1);
-      let d2 = handleUpcomingRides().filter((obj) => obj.state === selectedState);
+      d2 = handleUpcomingRides().filter((obj) => obj.state === selectedState);
       setUpcomingData(d2);
-      let d3 = handlePastRides().filter((obj) => obj.state === selectedState);
+      d3 = handlePastRides().filter((obj) => obj.state === selectedState);
       setPastData(d3);
       if (isCitySelected && selectedCity) {
-        setNearestData(d1.filter((obj) => obj.city === selectedCity));
-        setUpcomingData(d2.filter((obj) => obj.city === selectedCity));
-        setPastData(d3.filter((obj) => obj.city === selectedCity));
+        d1 = d1.filter((obj) => obj.city === selectedCity);
+        setNearestData(d1);
+        d2 = d2.filter((obj) => obj.city === selectedCity);
+        setUpcomingData(d2);
+        d3 = d3.filter((obj) => obj.city === selectedCity);
+        setPastData(d3);
       }
     }
 
@@ -161,16 +164,7 @@ function App() {
       setUpcomingData(handleUpcomingRides());
       setPastData(handlePastRides());
     }
-    if (isNearestRide) {
-      setFilteredData(nearestData);
-      setIsNearestRide(false);
-    } else if (isUpcomingRide) {
-      setFilteredData(upcomingData);
-      setIsUpcomingRide(false);
-    } else {
-      setFilteredData(pastData);
-      setIsPastRide(false);
-    } // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [isNearestRide, isUpcomingRide, isPastRide, isStateSelected, isCitySelected, selectedState, selectedCity]);
 
   useEffect(() => {
@@ -194,7 +188,7 @@ function App() {
     <div className="App">
       <Navbar userInfo={userInfo} />
       <Filter obj={{ setIsNearestRide, setIsUpcomingRide, setIsPastRide, upcomingData, pastData, setIsCitySelected, setIsStateSelected, selectedState, setSelectedState, selectedCity, setSelectedCity, states, cities }} />
-      <Ride filteredData={filteredData} />
+      <Ride upcomingData={upcomingData} pastData={pastData} nearestData={nearestData} rideType={{ isNearestRide, isUpcomingRide, isPastRide }} />
     </div>
   );
 }
