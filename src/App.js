@@ -163,10 +163,13 @@ function App() {
     }
     if (isNearestRide) {
       setFilteredData(nearestData);
+      setIsNearestRide(false);
     } else if (isUpcomingRide) {
       setFilteredData(upcomingData);
+      setIsUpcomingRide(false);
     } else {
       setFilteredData(pastData);
+      setIsPastRide(false);
     } // eslint-disable-next-line
   }, [isNearestRide, isUpcomingRide, isPastRide, isStateSelected, isCitySelected, selectedState, selectedCity]);
 
