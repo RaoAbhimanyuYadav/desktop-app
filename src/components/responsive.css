@@ -1,0 +1,51 @@
+@media screen and (max-width: 880px) {
+  .ride_location {
+    position: absolute;
+    left: 34px;
+  }
+  .filter_rides {
+    flex-direction: column;
+  }
+  .filter_rides > div {
+    margin: 5px;
+  }
+}
+@media screen and (max-width: 700px) {
+  .ride_details {
+    margin-left: 29px;
+    padding-top: 0px !important;
+  }
+  .ride {
+    width: 362px !important;
+    position: relative;
+  }
+}
+@media screen and (max-width: 500px) {
+  .navbar {
+    flex-direction: column;
+    height: fit-content !important;
+  }
+  .company-name {
+    text-align: center;
+  }
+  .profile {
+    justify-content: center;
+  }
+  .filter {
+    flex-direction: column;
+  }
+  .trigger {
+    margin-left: 50px;
+    margin-bottom: 10px;
+  }
+  .trigger > span {
+    margin: 0 !important;
+  }
+  .trigger > svg {
+    margin-top: 3px !important;
+  }
+  .dropdown_content {
+    left: 37px !important;
+    top: 0 !important;
+  }
+}

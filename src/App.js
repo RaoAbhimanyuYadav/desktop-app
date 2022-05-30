@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import "./components/responsive.css";
 import Filter from "./components/Filter";
 import Navbar from "./components/Navbar";
 import Ride from "./components/Ride";
